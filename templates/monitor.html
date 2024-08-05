@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="refresh" content="60">  <!-- Refreshes the page every 60 seconds -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Today's Appointments</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1>Bugun</h1>
+    <h2 style="margin-left: 700px">{{ today|date:"d.m.Y" }}</h2>
+    <table>
+        <tr>
+            <th>Patient Name</th>
+            <th>Appointment Time</th>
+        </tr>
+        {% for appointment in appointments %}
+        <tr>
+            <td>{{ forloop.counter }}.  {{ appointment.full_name }}</td>
+          <td>{{ appointment.full_name }}</td>
+            <td>{{ appointment.appointment_time|time:"H:i" }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="2">No appointments for today.</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+
+
