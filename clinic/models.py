@@ -9,6 +9,7 @@ class Appointment(models.Model):
     appointment_date = models.DateField()
     appointment_time = models.TimeField()
     called = models.BooleanField(default=False)
+    completed = models.BooleanField(default=False)
     SOURCE_CHOICES = [
         ('Telegram', 'Telegram'),
         ('Instagram', 'Instagram'),

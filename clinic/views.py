@@ -7,11 +7,14 @@ from .serializers import AppointmentSerializer
 from django.views.generic import ListView
 from django.utils import timezone
 from django.shortcuts import redirect, get_object_or_404
-
+from .filters import AppointmentFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
 class AppointmentViewSet(viewsets.ModelViewSet):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
+    filter_backends = (DjangoFilterBackend,)
+    form_class = AppointmentFilter
 
 
 class AppointmentCreateView(View):
@@ -40,10 +43,11 @@ class MonitorAppointmentsView(ListView):
     model = Appointment
     template_name = 'monitor.html'
     context_object_name = 'appointments'
-
+    filter_backends = (DjangoFilterBackend,)
+    form_class = AppointmentFilter
     def get_queryset(self):
         today = timezone.now().date()
-        return Appointment.objects.filter(appointment_date=today).order_by('appointment_time')
+        return Appointment.objects.filter(appointment_date=today,completed=False).order_by('appointment_time')
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
@@ -57,7 +61,8 @@ class AdministrationView(ListView):
     context_object_name = 'appointments'
 
     def get_queryset(self):
-        return Appointment.objects.all().order_by('appointment_date', 'appointment_time')
+        today = timezone.now().date()
+        return Appointment.objects.filter(appointment_date=today).order_by('appointment_date', 'appointment_time')
 
 
 def call_patient(request, pk):

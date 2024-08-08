@@ -6,47 +6,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administration</title>
     <style>
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 10px; border: 1px solid #ddd; }
-        th { background-color: #f4f4f4; }
-        button { background-color: #4CAF50; color: white; border: none; padding: 5px 10px; cursor: pointer; }
-        button:hover { background-color: #45a049; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
-    <h1>Administration Panel</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Full Name</th>
-                <th>Phone Number</th>
-                <th>Appointment Date</th>
-                <th>Appointment Time</th>
-                <th>Source</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for appointment in appointments %}
-            <tr>
-                <td>{{ appointment.full_name }}</td>
-                <td>{{ appointment.phone_number }}</td>
-                <td>{{ appointment.appointment_date }}</td>
-                <td>{{ appointment.appointment_time }}</td>
-                <td>{{ appointment.source }}</td>
-                <td>
-                    {% if not appointment.called %}
+<h1>Administration Panel</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Full Name</th>
+        <th>Phone Number</th>
+        <th>Appointment Date</th>
+        <th>Appointment Time</th>
+        <th>Source</th>
+        <th>Call</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for appointment in appointments %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ appointment.full_name }}</td>
+            <td>{{ appointment.phone_number }}</td>
+            <td>{{ appointment.appointment_date }}</td>
+            <td>{{ appointment.appointment_time }}</td>
+            <td>{{ appointment.source }}</td>
+            <td>
+                {% if appointment.completed %}
+                    Completed
+                {% elif appointment.called %}
+                    Called
+                {% else %}
                     <form action="{% url 'call_patient' appointment.pk %}" method="post">
                         {% csrf_token %}
                         <button type="submit">Call</button>
                     </form>
-                    {% else %}
-                    Called
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
 </body>
 </html>

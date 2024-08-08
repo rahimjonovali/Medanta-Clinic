@@ -13,17 +13,18 @@
     </style>
 </head>
 <body>
-    <h1>Bugun</h1>
+    <h1 style="margin-left: 700px">Bugun</h1>
     <h2 style="margin-left: 700px">{{ today|date:"d.m.Y" }}</h2>
     <table>
         <tr>
-            <th>Patient Name</th>
+            <th>ID</th>
+            <th>Full name</th>
             <th>Appointment Time</th>
         </tr>
         {% for appointment in appointments %}
         <tr>
-            <td>{{ forloop.counter }}.  {{ appointment.full_name }}</td>
-          <td>{{ appointment.full_name }}</td>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ appointment.full_name }}</td>
             <td>{{ appointment.appointment_time|time:"H:i" }}</td>
         </tr>
         {% empty %}
